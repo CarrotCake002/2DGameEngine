@@ -1,26 +1,19 @@
+
 cmake_minimum_required(VERSION 3.16)
-project(CombatEngine)
+project(2DGameEngine)
 
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Enable compile warnings
-if (MSVC)
-    add_compile_options(/W4)
-else()
-    add_compile_options(-Wall -Wextra -pedantic)
-endif()
+# Set output directory (optional, but nice for structure)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-# Set SFML path if needed (e.g., SFML_ROOT)
+# Find SFML
 find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
 
-# Add your source files (recursive)
-file(GLOB_RECURSE ENGINE_SOURCES CONFIGURE_DEPENDS
-    src/*.cpp
-)
+# Source files
+file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS src/*.cpp)
 
-add_executable(CombatEngine ${ENGINE_SOURCES})
+add_executable(${PROJECT_NAME} ${SOURCES})
 
-target_include_directories(CombatEngine PRIVATE src)
-
-target_link_libraries(CombatEngine PRIVATE sfml-graphics sfml-window sfml-system)
+# Link SFML
+target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window sfml-system)
