@@ -3,7 +3,7 @@
 ################################################################################
 
 # Visual Studio files
-/.vs
+/.vs/
 
 # build output directories
 build/
