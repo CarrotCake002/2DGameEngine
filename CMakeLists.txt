@@ -1,19 +1,24 @@
-
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.10)
 project(2DGameEngine)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 
-# Set output directory (optional, but nice for structure)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+# Automatically grab ALL .cpp in src/
+file(GLOB_RECURSE ENGINE_SOURCES CONFIGURE_DEPENDS src/*.cpp)
+
+# Make the engine library
+add_library(2DGameEngineLib ${ENGINE_SOURCES})
 
 # Find SFML
 find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
 
-# Source files
-file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS src/*.cpp)
+# Link SFML to the library
+target_link_libraries(2DGameEngineLib sfml-graphics sfml-window sfml-system)
 
-add_executable(${PROJECT_NAME} ${SOURCES})
+# Main executable (optional)
+add_executable(2DGameEngine src/main.cpp)
+target_link_libraries(2DGameEngine 2DGameEngineLib)
 
-# Link SFML
-target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window sfml-system)
+# Tests
+enable_testing()
+add_subdirectory(tests)
